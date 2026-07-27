@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ejercicios · Valset English</title>
+<meta name="description" content="Practica lo aprendido con ejercicios de opción múltiple, completar oraciones y relacionar palabras, organizados por nivel MCER (A1–B1).">
+<link rel="icon" href="assets/img/favicon.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="index.html" class="brand">
+      <img src="assets/img/logo.png" alt="Escudo de Valset English">
+      <span class="brand-text">Valset English<small>Bachillerato técnico · MCER</small></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html" data-nav="index.html">Inicio</a></li>
+      <li><a href="niveles/a1.html" data-nav="a1.html">A1</a></li>
+      <li><a href="niveles/a2.html" data-nav="a2.html">A2</a></li>
+      <li><a href="niveles/b1.html" data-nav="b1.html">B1</a></li>
+      <li><a href="ejercicios.html" data-nav="ejercicios.html">Ejercicios</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <section class="section" style="padding-bottom:20px;">
+    <div class="container">
+      <span class="eyebrow">Sección de ejercicios</span>
+      <h1>Practica y comprueba lo que sabes</h1>
+      <p class="lede">Elige un nivel y resuelve los ejercicios de opción múltiple, completar oraciones y relacionar palabras. Recibirás retroalimentación inmediata en cada intento.</p>
+
+      <div class="level-switch" role="tablist" aria-label="Seleccionar nivel">
+        <button type="button" class="pill" data-level-pill="a1">Nivel A1</button>
+        <button type="button" class="pill" data-level-pill="a2">Nivel A2</button>
+        <button type="button" class="pill" data-level-pill="b1">Nivel B1</button>
+      </div>
+
+      <div class="score-board panel" style="padding:14px 20px;">
+        <span>✅ Correctas: <span class="num" data-score-correct>0</span></span>
+        <span>📝 Respondidas: <span class="num" data-score-total>0</span></span>
+        <span>🎯 Precisión: <span class="num" data-score-pct>0%</span></span>
+      </div>
+
+      <div data-exercise-list style="margin-top:26px;"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <img src="assets/img/logo.png" alt="Escudo Valset English">
+      <div>
+        <strong>Valset English</strong>
+        <p class="footer-note">Recurso educativo de inglés para bachillerato técnico, organizado por niveles del MCER.</p>
+      </div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="niveles/a1.html">Nivel A1</a></li>
+      <li><a href="niveles/a2.html">Nivel A2</a></li>
+      <li><a href="niveles/b1.html">Nivel B1</a></li>
+      <li><a href="ejercicios.html">Ejercicios</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/exercises.js"></script>
+<script>initExercisesPage();</script>
+</body>
+</html>
