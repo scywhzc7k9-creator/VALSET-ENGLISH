@@ -293,3 +293,38 @@ p{ margin:0 0 1em; }
 @media (max-width:760px){ .grid-3{ grid-template-columns:1fr; } }
 .reveal{ opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease; }
 .reveal.in{ opacity:1; transform:none; }
+
+
+/* Controles de sesión añadidos por Firebase Authentication */
+.auth-session {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 310px;
+}
+.auth-session-email {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: .78rem;
+  opacity: .8;
+}
+.auth-logout-button {
+  flex: 0 0 auto;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 7px 11px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: .76rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.auth-logout-button:hover { opacity: .76; }
+.auth-logout-button:disabled { opacity: .45; cursor: wait; }
+@media (max-width: 850px) {
+  .auth-session { order: 4; width: 100%; max-width: none; justify-content: flex-end; }
+  .auth-session-email { max-width: 180px; }
+}
