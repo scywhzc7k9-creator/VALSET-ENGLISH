@@ -295,36 +295,5 @@ p{ margin:0 0 1em; }
 .reveal.in{ opacity:1; transform:none; }
 
 
-/* Controles de sesión añadidos por Firebase Authentication */
-.auth-session {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  max-width: 310px;
-}
-.auth-session-email {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: .78rem;
-  opacity: .8;
-}
-.auth-logout-button {
-  flex: 0 0 auto;
-  border: 1px solid currentColor;
-  border-radius: 999px;
-  padding: 7px 11px;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  font-size: .76rem;
-  font-weight: 700;
-  cursor: pointer;
-}
-.auth-logout-button:hover { opacity: .76; }
-.auth-logout-button:disabled { opacity: .45; cursor: wait; }
-@media (max-width: 850px) {
-  .auth-session { order: 4; width: 100%; max-width: none; justify-content: flex-end; }
-  .auth-session-email { max-width: 180px; }
-}
+/* Firebase authentication controls */
+#auth-loader{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:#f4efe5;color:#171411;font-family:Arial,sans-serif}.auth-loader-card{text-align:center;padding:28px}.auth-spinner{width:42px;height:42px;border:4px solid #d7cdbd;border-top-color:#8c1515;border-radius:50%;margin:0 auto 14px;animation:auth-spin .8s linear infinite}@keyframes auth-spin{to{transform:rotate(360deg)}}.session-controls{display:flex;align-items:center;gap:9px;margin-left:auto;font-family:Arial,sans-serif}.session-email{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.78rem;color:#625c54}.session-logout{border:1px solid #8c1515;background:transparent;color:#8c1515;border-radius:999px;padding:9px 13px;font-weight:700;cursor:pointer}.session-logout:hover{background:#8c1515;color:#fff}.local-preview-notice{position:relative;z-index:9999;padding:12px 18px;background:#fff3cd;color:#654d03;font-family:Arial,sans-serif;text-align:center}.local-preview-notice code{background:rgba(0,0,0,.06);padding:2px 5px;border-radius:4px}@media(max-width:900px){.session-controls{width:100%;justify-content:flex-end;padding:8px 0}.session-email{display:none}}

@@ -1,94 +1,80 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { auth } from "./firebase-config.js";
 import {
-  browserLocalPersistence,
-  getAuth,
   onAuthStateChanged,
-  sendPasswordResetEmail,
-  setPersistence,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { firebaseConfig } from "./firebase-config.js";
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const homeUrl = new URL("../../index.html", import.meta.url);
+const form = document.getElementById("login-form");
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const message = document.getElementById("login-message");
+const submit = document.getElementById("login-submit");
+const reset = document.getElementById("reset-password");
+const toggle = document.getElementById("toggle-password");
 
-const form = document.querySelector("#login-form");
-const emailInput = document.querySelector("#email");
-const passwordInput = document.querySelector("#password");
-const submitButton = document.querySelector("#login-submit");
-const message = document.querySelector("#login-message");
-const resetButton = document.querySelector("#reset-password");
-const toggleButton = document.querySelector("#toggle-password");
+const params = new URLSearchParams(window.location.search);
+const next = params.get("next");
+const safeNext = next && next.startsWith("/") && !next.startsWith("//") ? next : "index.html";
 
-function safeDestination() {
-  const value = new URLSearchParams(window.location.search).get("next");
-  if (!value || !value.startsWith("/") || value.startsWith("//")) return homeUrl.href;
-  return new URL(value, window.location.origin).href;
-}
-
-function setMessage(text, type = "info") {
+function setMessage(text, type = "error") {
   message.textContent = text;
   message.dataset.type = type;
+  message.hidden = !text;
 }
 
 function friendlyError(code) {
-  const messages = {
+  const errors = {
     "auth/invalid-credential": "Correo o contraseña incorrectos.",
     "auth/invalid-email": "Escribe un correo electrónico válido.",
-    "auth/missing-password": "Escribe tu contraseña.",
-    "auth/too-many-requests": "Se bloquearon temporalmente los intentos. Espera unos minutos.",
-    "auth/user-disabled": "Esta cuenta ha sido deshabilitada. Comunícate con tu docente.",
-    "auth/network-request-failed": "No fue posible conectar con Firebase. Revisa tu conexión.",
-    "auth/unauthorized-domain": "Este dominio todavía no está autorizado en Firebase."
+    "auth/user-disabled": "Esta cuenta está deshabilitada. Contacta a tu docente.",
+    "auth/too-many-requests": "Demasiados intentos. Espera unos minutos e inténtalo nuevamente.",
+    "auth/network-request-failed": "No se pudo conectar. Revisa tu conexión a internet."
   };
-  return messages[code] || "No fue posible iniciar sesión. Verifica tus datos e inténtalo de nuevo.";
+  return errors[code] || "No fue posible iniciar sesión. Inténtalo nuevamente.";
 }
 
 onAuthStateChanged(auth, (user) => {
-  document.documentElement.classList.add("login-ready");
-  if (user) window.location.replace(safeDestination());
+  if (user) window.location.replace(safeNext);
 });
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   setMessage("");
-  submitButton.disabled = true;
-  submitButton.textContent = "Verificando…";
-
+  submit.disabled = true;
+  submit.textContent = "Verificando…";
   try {
-    await setPersistence(auth, browserLocalPersistence);
-    await signInWithEmailAndPassword(auth, emailInput.value.trim(), passwordInput.value);
-    window.location.replace(safeDestination());
+    await signInWithEmailAndPassword(auth, email.value.trim(), password.value);
+    window.location.replace(safeNext);
   } catch (error) {
-    setMessage(friendlyError(error.code), "error");
-    submitButton.disabled = false;
-    submitButton.textContent = "Iniciar sesión";
+    setMessage(friendlyError(error.code));
+  } finally {
+    submit.disabled = false;
+    submit.textContent = "Iniciar sesión";
   }
 });
 
-resetButton.addEventListener("click", async () => {
-  const email = emailInput.value.trim();
-  if (!email) {
-    setMessage("Escribe primero tu correo para recibir el enlace de recuperación.", "error");
-    emailInput.focus();
+reset.addEventListener("click", async () => {
+  const address = email.value.trim();
+  if (!address) {
+    setMessage("Escribe tu correo para enviarte el enlace de recuperación.");
+    email.focus();
     return;
   }
-
-  resetButton.disabled = true;
+  reset.disabled = true;
   try {
-    await sendPasswordResetEmail(auth, email);
-    setMessage("Se envió un enlace de recuperación. Revisa también la carpeta de correo no deseado.", "success");
+    await sendPasswordResetEmail(auth, address);
+    setMessage("Revisa tu correo. Firebase envió un enlace para restablecer tu contraseña.", "success");
   } catch (error) {
-    setMessage(friendlyError(error.code), "error");
+    setMessage(friendlyError(error.code));
   } finally {
-    resetButton.disabled = false;
+    reset.disabled = false;
   }
 });
 
-toggleButton.addEventListener("click", () => {
-  const visible = passwordInput.type === "text";
-  passwordInput.type = visible ? "password" : "text";
-  toggleButton.textContent = visible ? "Mostrar" : "Ocultar";
-  toggleButton.setAttribute("aria-pressed", String(!visible));
+toggle.addEventListener("click", () => {
+  const visible = password.type === "text";
+  password.type = visible ? "password" : "text";
+  toggle.textContent = visible ? "Mostrar" : "Ocultar";
+  toggle.setAttribute("aria-pressed", String(!visible));
 });
